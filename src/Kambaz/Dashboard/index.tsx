@@ -19,7 +19,7 @@ export default function Dashboard() {
                 </div>
                 <div className="wd-dashboard-course">
                     <Link to="/Kambaz/Courses/2345/Home" className="wd-dashboard-course-link">
-                    <img src="/src/assets/react.svg" width={200} />
+                    <img src="/react.svg" width={200} />
                     <div>
                         <h5> CS2345 Node JS </h5>
                         <p className="wd-dashboard-course-title">
@@ -31,7 +31,7 @@ export default function Dashboard() {
                 </div>
                 <div className="wd-dashboard-course">
                     <Link to="/Kambaz/Courses/3456/Home" className="wd-dashboard-course-link">
-                    <img src="/src/assets/react.svg" width={200} />
+                    <img src="/react.svg" width={200} />
                     <div>
                         <h5> CS3456 Java </h5>
                         <p className="wd-dashboard-course-title">
@@ -43,7 +43,7 @@ export default function Dashboard() {
                 </div>
                 <div className="wd-dashboard-course">
                     <Link to="/Kambaz/Courses/4567/Home" className="wd-dashboard-course-link">
-                    <img src="/src/assets/react.svg" width={200} />
+                    <img src="/react.svg" width={200} />
                     <div>
                         <h5> CS4567 Python </h5>
                         <p className="wd-dashboard-course-title">
@@ -55,7 +55,7 @@ export default function Dashboard() {
                 </div>
                 <div className="wd-dashboard-course">
                     <Link to="/Kambaz/Courses/5678/Home" className="wd-dashboard-course-link">
-                    <img src="/src/assets/react.svg" width={200} />
+                    <img src="/react.svg" width={200} />
                     <div>
                         <h5> CS5678 C++ </h5>
                         <p className="wd-dashboard-course-title">
@@ -67,7 +67,7 @@ export default function Dashboard() {
                 </div>
                 <div className="wd-dashboard-course">
                     <Link to="/Kambaz/Courses/6789/Home" className="wd-dashboard-course-link">
-                    <img src="/src/assets/react.svg" width={200} />
+                    <img src="/react.svg" width={200} />
                     <div>
                         <h5> CS6789 C# </h5>
                         <p className="wd-dashboard-course-title">
@@ -79,7 +79,7 @@ export default function Dashboard() {
                 </div>
                 <div className="wd-dashboard-course">
                     <Link to="/Kambaz/Courses/7890/Home" className="wd-dashboard-course-link">
-                    <img src="/src/assets/react.svg" width={200} />
+                    <img src="/react.svg" width={200} />
                     <div>
                         <h5> CS7890 AWS </h5>
                         <p className="wd-dashboard-course-title">
