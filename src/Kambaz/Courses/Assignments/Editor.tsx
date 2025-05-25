@@ -1,7 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Col, Form, Row} from "react-bootstrap";
+import { Col, Form, Row } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
+import * as db from '../../Database';
 
 export default function AssignmentEditor() {
+    const { cid, aid } = useParams();
+    const assignments = db.assignments;
+
+    const assignment = assignments.find((assignment) => assignment._id === aid);
     return (
         <div id="wd-assignments-editor" className="container mt-4">
             <Form>
@@ -10,7 +16,7 @@ export default function AssignmentEditor() {
                         Assignment Name
                     </Form.Label>
                     <Col sm={10}>
-                        <Form.Control id="wd-name" value="A1 - ENV + HTML" />
+                        <Form.Control id="wd-name" value={assignment?.title} />
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3">
@@ -19,7 +25,7 @@ export default function AssignmentEditor() {
                             as="textarea"
                             id="wd-description"
                             rows={3}
-                            defaultValue="The assignment is available online Subit a link to the landing page of your Web Application runnning on Netlify.The landing page should include the following: Your full name and section Links to each of the lab assignments Link to the Kambaz appplication Links to all relevant source code repositories. The kaambaz application should include a link to navigate back to the landing page."
+                            value={assignment?.description}
                         />
                     </Col>
                 </Form.Group>
@@ -36,8 +42,8 @@ export default function AssignmentEditor() {
                         Assignment Group
                     </Form.Label>
                     <Col sm={10}>
-                        <Form.Select id="wd-group" defaultValue="Assignments">
-                            <option value="Assignments">Assignments</option>
+                        <Form.Select id="wd-group" defaultValue="ASSIGNMENTS">
+                            <option value="ASSIGNMENTS">ASSIGNMENTS</option>
                         </Form.Select>
                     </Col>
                 </Form.Group>
@@ -126,16 +132,21 @@ export default function AssignmentEditor() {
                     </Col>
                     <Col sm={6}>
                         <Form.Label htmlFor="wd-available-until">Until</Form.Label>
-                        <Form.Control type="date" id="wd-available-until" value="2024-05-20" />
+                        <Form.Control type="date" id="wd-available-until" value="2025-05-30" />
                     </Col>
                 </Form.Group>
                 <hr />
                 <Form.Group as={Row} className="mb-3">
                     <Col className="d-flex justify-content-end">
-                        <Button variant="secondary" className="me-2">
+                        <Link
+                            to={`/Kambaz/Courses/${cid}/Assignments`}
+                            className="btn btn-secondary"
+                        >
                             Cancel
-                        </Button>
-                        <Button variant="danger">Save</Button>
+                        </Link>
+                        <Link to={`/Kambaz/Courses/${cid}/Assignments`} className="btn btn-danger">
+                            Save
+                        </Link>
                     </Col>
                 </Form.Group>
             </Form>
