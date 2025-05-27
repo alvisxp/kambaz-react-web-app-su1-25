@@ -4,9 +4,12 @@ import Lab3 from "./Lab3";
 import Lab4 from "./Lab4";
 import {Route, Routes, Navigate} from "react-router";
 import TOC from "./TOC";
+import store from "./store";
+import { Provider } from "react-redux";
 export default function Labs() {
     return (
-        <div>
+        <Provider store ={store}> 
+        <div className="container-fluid">
             <h1>Labs</h1>
             <h2>Alvis Prabhu</h2>
             <h2>
@@ -24,5 +27,6 @@ export default function Labs() {
 
             </Routes>
         </div>
+        </Provider>
     );
 }
