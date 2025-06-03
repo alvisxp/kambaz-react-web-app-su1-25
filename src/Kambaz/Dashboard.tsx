@@ -1,9 +1,9 @@
 import { Button, Card, Col, FormControl, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewCourse, deleteCourse, updateCourse } from "../Courses/courseReducer";
+import { addNewCourse, deleteCourse, updateCourse } from "./Courses/courseReducer";
 import { useState } from "react";
-import { enrollInCourse, unenrollFromCourse } from "../Courses/enrollmentReducer";
+import { enrollInCourse, unenrollFromCourse } from "./Courses/enrollmentReducer";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Dashboard() {
