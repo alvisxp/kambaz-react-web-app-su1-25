@@ -9,6 +9,11 @@ export default function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const updateProfile = async () => {
+    const updatedProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updatedProfile));
+  };
+
   const fetchProfile = () => {
     if (!currentUser) return navigate("/Kambaz/Account/Signin");
     setProfile(currentUser);
@@ -20,11 +25,6 @@ export default function Profile() {
   };
 
   useEffect(() => { fetchProfile(); }, []);
-   const updateProfile = async () => {
-    const updatedProfile = await client.updateUser(profile);
-    dispatch(setCurrentUser(updatedProfile));
-  };
-
   return (
     <div className="wd-profile-screen">
       <h3>Profile</h3>
@@ -47,10 +47,12 @@ export default function Profile() {
             <option value="USER">User</option>            <option value="ADMIN">Admin</option>
             <option value="FACULTY">Faculty</option>      <option value="STUDENT">Student</option>
           </select>
-          <button onClick={updateProfile} className="btn btn-primary w-100 mb-2"> Update </button>
-          <Button onClick={signout} className="w-100 mb-2" id="wd-signout-btn">
-            Sign out
-          </Button>
+          <div>
+            <button onClick={updateProfile} className="btn btn-primary w-100 mb-2"> Update </button>
+            <Button onClick={signout} className="w-100 mb-2 btn-danger" id="wd-signout-btn">
+              Sign out
+            </Button>
+          </div>
         </div>
       )}
 </div>);}
