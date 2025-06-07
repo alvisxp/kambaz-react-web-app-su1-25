@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { updateAssignment } from "./reducer";
+import * as assignmentsClient from "./client";
+
 export default function AssignmentEditor() {
     const { aid }:any = useParams();
     const formatDateForInput = (isoString: any) => {
@@ -33,6 +35,7 @@ export default function AssignmentEditor() {
     };
   
     const handleSave = () => {
+      assignmentsClient.updateModule(assignment);
       dispatch(updateAssignment(assignment));
       navigate(-1);
     };

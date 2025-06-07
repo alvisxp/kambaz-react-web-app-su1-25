@@ -8,18 +8,32 @@ import AssignmentItemLeftControl from "./AssignmentItemLeftControl";
 // import "./styles.css"
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { useDispatch, useSelector } from "react-redux";
-import { addAssignment, deleteAssignment } from "./reducer";
-import { useState } from "react";
+import { addAssignment, deleteAssignment, setAssignments } from "./reducer";
+import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { v4 as uuidv4 } from "uuid";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
+
 export default function Assignments() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const {assignments} = useSelector((state: any) => state.assignmentReducer);
+    // const {assignments} = useSelector((state: any) => state.assignmentReducer);
 
     const { cid }: any = useParams();
-    const courseAssignments = assignments.filter((assignment: any) => assignment.course === cid)
+    const { assignments } = useSelector((state: any) => state.assignmentReducer);
+    const fetchCourseAssignments = async () => {
+        const assignments = await coursesClient.findAssignmentForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+    };
+    const createAssignmentForCourse = async () => {
+      if (!cid) return;
+      const newAssignment = await coursesClient.createAssignmentForCourse(cid, {});
+      dispatch(addAssignment({ assignment_id: newAssignment._id, course_id: cid }));
+      navigate(`/Kambaz/Courses/${cid}/Assignments/${newAssignment._id}`)
+    };
+    // const courseAssignments = assignments.filter((assignment: any) => assignment.course === cid)
+    // const courseAssignments = fetchCourseAssignments();
     const formatDateForInput = (isoString: any) => {
       if (!isoString) return "";
       const date = new Date(isoString);
@@ -28,17 +42,21 @@ export default function Assignments() {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const [deleteModal, setDeleteModal] = useState(false)
     const handleDelete = () => {
+      assignmentsClient.deleteModule(selected_assignment_id);
       dispatch(deleteAssignment(selected_assignment_id));
       setDeleteModal(false);
     }
     const [selected_assignment_id, set_selected_assignment_id] = useState("");
-    var newAssignmentId = uuidv4();
+    // var newAssignmentId = uuidv4();
     
-    const newAssignment = () => {
-      dispatch(addAssignment({ assignment_id: newAssignmentId, course_id: cid }));
-      navigate(`/Kambaz/Courses/${cid}/Assignments/${newAssignmentId}`)
-    }
+    // const newAssignment = () => {
+    //   dispatch(addAssignment({ assignment_id: newAssignmentId, course_id: cid }));
+    //   navigate(`/Kambaz/Courses/${cid}/Assignments/${newAssignmentId}`)
+    // }
     
+    useEffect(() => {
+      fetchCourseAssignments();
+    }, []);
     return (
       <div id="wd-assignments">
         <Container className="text-nowrap">
@@ -53,7 +71,7 @@ export default function Assignments() {
               </InputGroup>
             </Col>
             {currentUser != null && currentUser.role === "FACULTY" && <Col>
-              <Button id="wd-add-assignment" variant="danger" size="lg" className="float-end me-2" onClick={newAssignment}><FiPlus className="position-relative" style={{ bottom: "2px" }} /> Assignment</Button>
+              <Button id="wd-add-assignment" variant="danger" size="lg" className="float-end me-2" onClick={createAssignmentForCourse}><FiPlus className="position-relative" style={{ bottom: "2px" }} /> Assignment</Button>
               <Button id="wd-add-assignment-group" className="btn btn-secondary me-2 float-end" size="lg"><FiPlus className="position-relative" style={{ bottom: "2px" }} /> Group</Button>
             </Col>}
           </Row>
@@ -63,7 +81,7 @@ export default function Assignments() {
         <div id="wd-assignments-title" className="wd-title p-3 ps-2 mb-0 bg-secondary">
         <AssignmentLeftControl/> ASSIGNMENTS <AssignmentControlButtons/> <span className="float-end me-3 rounded-pill border border-dark ps-2 pe-2">40% of Total</span></div>
         </ListGroup.Item>
-        {courseAssignments.map((courseAssignment: any ) => (
+        {assignments.map((courseAssignment: any ) => (
           <ListGroup.Item className="wd-assignment-list-item pb-0 wd-assignment-item">
           <Row>
             <Col className="mt-4" xs="auto">
@@ -79,8 +97,8 @@ export default function Assignments() {
             </Col>
             <Col className="pt-4" style={{}}>
             <span className="float-end">
-            <a style={{cursor:"pointer"}} onClick={() => {set_selected_assignment_id(courseAssignment._id); setDeleteModal(true)}}>
-            <MdDelete className="text-danger me-2" size={30} /></a>
+            {currentUser != null && currentUser.role === "FACULTY" && <a style={{cursor:"pointer"}} onClick={() => {set_selected_assignment_id(courseAssignment._id); setDeleteModal(true)}}>
+            <MdDelete className="text-danger me-2" size={30} /></a>}
 
               <LessonControlButtons/>
             </span>
