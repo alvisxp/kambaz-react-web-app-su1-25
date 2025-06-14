@@ -7,6 +7,7 @@ import AssignmentEditor from "./Assignments/Editor";
 import {Navigate, Route, Routes, useLocation, useParams} from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
 import { useSelector } from "react-redux";
+
 export default function Courses() {
     const {cid} = useParams()
     const {pathname} = useLocation()
