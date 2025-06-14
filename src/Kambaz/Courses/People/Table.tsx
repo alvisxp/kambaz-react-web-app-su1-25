@@ -1,48 +1,32 @@
-import { Table } from 'react-bootstrap';
-import { FaUserCircle } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
-import * as db from '../../Database';
-export default function PeopleTable() {
-    const { cid } = useParams();
-    const { users, enrollments } = db;
+import { Table } from "react-bootstrap";
+import { FaUserCircle } from "react-icons/fa";
+import PeopleDetails from "./Details";
+import { Link } from "react-router";
 
-    return (
-        <div id="wd-people-table">
-            <Table striped>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Login ID</th>
-                        <th>Section</th>
-                        <th>Role</th>
-                        <th>Last Activity</th>
-                        <th>Total Activity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users
-                        .filter((usr) =>
-                            enrollments.some(
-                                (enrollment) =>
-                                    enrollment.user === usr._id && enrollment.course === cid
-                            )
-                        )
-                        .map((user: any) => (
-                            <tr key={user._id}>
-                                <td className="wd-full-name text-nowrap">
-                                    <FaUserCircle className="me-2 fs-1 text-secondary" />
-                                    <span className="wd-first-name">{user.firstName}</span>
-                                    <span className="wd-last-name">{user.lastName}</span>
-                                </td>
-                                <td className="wd-login-id">{user.loginId}</td>
-                                <td className="wd-section">{user.section}</td>
-                                <td className="wd-role">{user.role}</td>
-                                <td className="wd-last-activity">{user.lastActivity}</td>
-                                <td className="wd-total-activity">{user.totalActivity}</td>
-                            </tr>
-                        ))}
-                </tbody>
-            </Table>
-        </div>
-    );
-}
+export default function PeopleTable({ users = [] }: { users?: any[] }) {
+ return (
+  <div id="wd-people-table">
+    <PeopleDetails/>
+    <Table striped>
+    <thead>
+     <tr><th>Name</th><th>Login ID</th><th>Section</th><th>Role</th><th>Last Activity</th><th>Total Activity</th></tr>
+    </thead>
+    <tbody>
+        {users.map((enrolledUser: any) => (
+                <tr key={enrolledUser._id}>
+                    <td className="wd-full-name text-nowrap">
+                    <Link to={`/Kambaz/Account/Users/${enrolledUser._id}`} className="text-decoration-none">
+                        <FaUserCircle className="me-2 fs-1 text-secondary" />
+                        <span className="wd-first-name">{enrolledUser.firstName}</span>{" "}
+                        <span className="wd-last-name">{enrolledUser.lastName}</span></Link></td>
+                        <td className="wd-login-id">{enrolledUser.loginId}</td>
+                        <td className="wd-section">{enrolledUser.section}</td>
+                        <td className="wd-role">{enrolledUser.role}</td>
+                        <td className="wd-last-activity">{enrolledUser.lastActivity}</td>
+                        <td className="wd-total-activity">{enrolledUser.totalActivity}</td>
+                </tr>
+            ))
+        }
+    </tbody>
+   </Table>
+  </div> );}
